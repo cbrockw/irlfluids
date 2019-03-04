@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+    <div class="header">
+        <link rel="stylesheet" href='../static/style.css'/>
+        <h1>iRL Energy Loss in Pipes and Fittings</h1>
+    </div>
+    <body>
+        <div class="topnav" align="center">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('people') }}">Team</a>
+            <a href="{{ url_for('frictionlab') }}">Friction Lab</a>
+        </div>
+
+    <div class="fullcolumn">
+    <h3 align="center"><img src="{{ url_for('video_feed') }}" height="45%" width="28%" /></h3>
+    <hr>
+    </div>
+    
+    <div class="row">
+    <div class="column" style=";background:#F2F2F2; border:1px dotted black; text-align:center;
+            border-radius: 10px; height: 350px;">
+    <h3> Pump Power </h3>
+    <div align="center">
+    <div class="onoffswitch">
+        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitch">
+        <label class="onoffswitch-label" for="onoffswitch">
+            <span class="onoffswitch-inner"></span>
+            <span class="onoffswitch-switch"></span>
+        </label>
+    </div>
+    </div>
+
+    <h3>VFD Frequency Slider</h3>
+    <input type="range" id="rangeInput"
+           name="rangeInput" min="0" max="60" value="0" class="slider"
+           oninput="amount.value=rangeInput.value" onchange="calcflow()">
+    <h3>
+    <span><b>Speed (Hz) = <output id="amount" name="amount" for="rangeInput">0</output> </b></span>
+    </h3>
+    <h3>
+    <span><b>Flow Rate (m<sup>3</sup>/s) = <output id="flowrate">0.00</output></b></span>
+    </h3>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket1 = io.connect('http://localhost:5000/flowrate_socket');
+        socket1.on('flowrate', function(data) {
+            var pumpon = document.getElementById('onoffswitch').checked
+            if (pumpon) {
+                pval=1;
+            } else {
+                pval=0;
+            }
+            var flowrate = JSON.parse(data['flowrate']);
+            document.getElementById('flowrate').innerHTML = pval*flowrate;
+            });
+    </script>
+    </div>
+        
+    <div class="column"  style=";background:#F2F2F2; border:1px dotted black; text-align:center;
+            border-radius: 10px; height: 350px;">
+        <h3> Valves </h3><br>
+        <div align="center" padding="10px">
+            <div class="valveswitch">
+                <input type="checkbox" name="valve1" class="valveswitch-checkbox" id="valve1">
+                    <label class="valveswitch-label" for="valve1">
+                        <span class="valveswitch-inner"></span>
+                        <span class="valveswitch-switch"></span>
+                    </label>
+            </div><b>Valve 1</b>
+        </div><br>
+        <div align="center">
+            <div class="valveswitch">
+                <input type="checkbox" name="valve2" class="valveswitch-checkbox" id="valve2">
+                    <label class="valveswitch-label" for="valve2">
+                        <span class="valveswitch-inner"></span>
+                        <span class="valveswitch-switch"></span>
+                    </label>
+            </div><b>Valve 2</b>
+        </div><br>
+        <div align="center">
+            <div class="valveswitch">
+                <input type="checkbox" name="valve3" class="valveswitch-checkbox" id="valve3">
+                    <label class="valveswitch-label" for="valve3">
+                        <span class="valveswitch-inner"></span>
+                        <span class="valveswitch-switch"></span>
+                    </label>
+            </div><b>Valve 3</b>
+        </div>
+        
+    </div>
+    
+    <div class="column" style=";background:#F2F2F2; border:1px dotted black; text-align:center;
+        border-radius: 10px; height: 350px;">
+        <h3> Pressure Ports </h3>
+        <div class="pcolumn">
+        <form action="">
+        <label class="pcontainer"><b>Port 1</b>
+                <input type="radio" name="upport" value="1">
+                    <span class="checkmark"></span>
+            </label><br>
+            <label class="pcontainer"><b>Port 2</b>
+                <input type="radio" name="upport" value="2">
+                    <span class="checkmark"></span>
+            </label><br>
+            <label class="pcontainer"><b>Port 3</b>
+                <input type="radio" name="upport" value="3">
+                    <span class="checkmark"></span>
+            </label><br>
+            <label class="pcontainer"><b>Port 4</b>
+                <input type="radio" name="upport" value="4">
+                    <span class="checkmark"></span>
+            </label><br>
+            <label class="pcontainer"><b>Port 5</b>
+                <input type="radio" name="upport" value="5">
+                    <span class="checkmark"></span>
+            </label><br>
+        </form>
+        </div>
+        <div class="pcolumn">
+        <form action="">
+            <label class="pcontainer"><b>Port 6</b>
+                <input type="radio" name="downport" value="6">
+                    <span class="checkmark"></span>
+                    </label><br>
+            <label class="pcontainer"><b>Port 7</b>
+                <input type="radio" name="downport" value="7">
+                    <span class="checkmark"></span>
+                    </label><br>
+            <label class="pcontainer"><b>Port 8</b>
+                <input type="radio" name="downport" value="8">
+                    <span class="checkmark"></span>
+                    </label><br>
+            <label class="pcontainer"><b>Port 9</b>
+                <input type="radio" name="downport" value="9">
+                    <span class="checkmark"></span>
+                    </label><br>
+            <label class="pcontainer"><b>Port 10</b>
+                <input type="radio" name="downport" value="10">
+                    <span class="checkmark"></span>
+                    </label><br>
+        </form>
+        </div>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            var socket2 = io.connect('http://localhost:5000/pressure1_socket');
+            socket2.on('pressure1', function(data) {
+                var pressure1 = JSON.parse(data['pressure1']);
+                var pressure2 = JSON.parse(data['pressure2']);
+                var uport = document.querySelector('input[name="upport"]:checked').value;
+                var dport = document.querySelector('input[name="downport"]:checked').value;
+                console.log(uport);
+                uport=parseFloat(uport);
+                dport=parseFloat(dport);
+                socket2.emit('uport', uport);
+                socket2.emit('dport', dport);
+                document.getElementById('upstreamP').innerHTML = pressure1;
+                document.getElementById('downstreamP').innerHTML = pressure2;
+                });
+        </script>
+        </div>
+        <div class="column" style=";background:#F2F2F2; border:1px dotted black; text-align:center;
+            border-radius: 10px; height: 350px;">
+            <h3> Pressure Readings </h3>
+            <p>
+            <span><b>Upstream Pressure</b></span><br>
+            <span><b>(cm H<sub>2</sub>O)</b></span>
+            <h1><b><output id="upstreamP">0</output></b></h1>
+            <span><b>Downstream Pressure</b></span><br>
+            <span><b>(cm H<sub>2</sub>O)</b></span>
+            <h1><b><output id="downstreamP">0</output></b></h1>
+            </p>
+        </div>
+    <div class="fullcolumn" align="center">
+        
+        <div class="image-wrapper">
+            <img src="../static/ .png" alt="University of Georgia" width="300" height="100" vspace="20">
+        </div>
+    </div>
+        
+    </body>
+</html>

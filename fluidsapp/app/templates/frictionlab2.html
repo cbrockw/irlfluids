@@ -1,0 +1,130 @@
+<html>
+    <div class="header">
+        <link rel="stylesheet" href='../static/style.css'/>
+        <h1>iRL Energy Loss in Pipes and Fittings</h1>
+    </div>
+    <body>
+        <div class="topnav" align="center">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('people') }}">People</a>
+            <a href="{{ url_for('frictionlab') }}">Friction Lab</a>
+        </div>
+        
+        <h1 align="center"></h1>
+        <div class="fullcolumn">
+            <h3 align="center"><img src="{{ url_for('video_feed') }}" height="50%" width="40%" /></h3>
+            <hr>
+        </div>
+        
+        <div class="row">
+            <div class="column">
+                <h3> Pump Power </h3>
+                <div align="center">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitch" onclick="calcflow()">
+                            <label class="onoffswitch-label" for="onoffswitch">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                            </div>
+                </div>
+                
+                <h3>VFD Frequency Slider</h3>
+                <input type="range" id="rangeInput"
+                    name="rangeInput" min="0" max="60" value="0" class="slider"
+                    oninput="amount.value=rangeInput.value">
+                    <p>
+                    <span><b>Speed (Hz) = <output id="amount" name="amount" for="rangeInput">0</output> </b></span>
+                    </p>
+                    <script>
+                        function calcflow() {
+                            var pumpfreq = document.getElementById('rangeInput').value;
+                            var pumpon = document.getElementById('onoffswitch').checked
+                            if (pumpon) {
+                                pval=1;
+                            } else {
+                                pval=0;
+                            }
+                            var Q = .00167*parseInt(pumpfreq)*pumpon;
+                            var flowrate = Q.toFixed(2);
+                            document.getElementById('flowrate').innerHTML = flowrate;
+                        }
+                    
+                        </script>
+                    
+                    <p>
+                    <span><b>Flow Rate (m<sup>3</sup>/s) = <output id="flowrate">0</output></b></span>
+                    </p>
+                    </div>
+            </column>
+            <div class="column">
+                <h3> Pressure Ports </h3>
+                <div class="pcolumn">
+                    <label class="pcontainer"><b>Port 1</b>
+                        <input type="radio" checked="checked" name="uppressure" id:"pressure1" onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                    <label class="pcontainer"><b>Port 2</b>
+                        <input type="radio" name="uppressure" id:"pressure2"  onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                    <label class="pcontainer"><b>Port 3</b>
+                        <input type="radio" name="uppressure" id:"pressure3"  onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                    <label class="pcontainer"><b>Port 4</b>
+                        <input type="radio" name="uppressure" id:"pressure4"  onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                    <label class="pcontainer"><b>Port 5</b>
+                        <input type="radio" name="uppressure" id:"pressure5"  onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                </div>
+                <div class="pcolumn">
+                    <label class="pcontainer"><b>Port 6</b>
+                        <input type="radio" checked="checked" name="downpressure" id:"pressure6" onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                    <label class="pcontainer"><b>Port 7</b>
+                        <input type="radio" name="downpressure" id:"pressure7" onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                    <label class="pcontainer"><b>Port 8</b>
+                        <input type="radio" name="downpressure" id:"pressure8" onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                    <label class="pcontainer"><b>Port 9</b>
+                        <input type="radio" name="downpressure" id:"pressure9" onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                    <label class="pcontainer"><b>Port 10</b>
+                        <input type="radio" name="downpressure" id:"pressure10" onclick="calcpressure()">
+                            <span class="checkmark"></span>
+                            </label><br>
+                </div>
+                <div class="pcolumn">
+                    <script>
+                        function calcpressure() {
+                            var upport = 0
+                            var uppress = document.getElementsByName('uppressure');
+                            for (var i = 0, length = uppress.length; i < length; i++) {
+                                if (uppress[i].checked) {
+                                    upport=i+1
+                                }
+                                var downport = document.getElementByName('downpressure').value;
+                                var P1 = parseInt(upport);
+                                var P2 = parseInt(downport);
+                                document.getElementById('upstreamP').innerHTML = P1;
+                                document.getElementById('downstreamP').innerHTML = P2;
+                            }
+                        </script>
+                    
+                    <p>
+                    <span><b>Upstream Pressure (cm H<sub>2</sub>O) = <output id="upstreamP">0</output></b></span>
+                    <span><b>Downstream Pressure (cm H<sub>2</sub>O) = <output id="downstreamP">0</output></b></span>
+                    </p>
+                </div>
+                </body>
+</html>
+

@@ -1,0 +1,14 @@
+<html>
+    <div class="header">
+        <link rel="stylesheet" href='../static/style.css'/>
+        <h1>Welcome to iRL Fluids</h1>
+    </div>
+    <body>
+        <div class="topnav" align="center">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('people') }}">People</a>
+            <a href="{{ url_for('frictionlab') }}">Friction Lab</a>
+        </div>
+        {% block content %}{% endblock %}
+    </body>
+</html>
